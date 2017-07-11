@@ -1,0 +1,221 @@
+<resources>
+    <string name="app_name">Demo1</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="main_page">首页</string>
+    <string name="collect_pagr">收藏</string>
+    <string name="mine_page">我的</string>
+    <string name="watch_news">看新闻</string>
+    <string name="watch_cookbook">看菜谱</string>
+    <string name="yuanwen">查看原文</string>
+    <string name="collection">我的收藏</string>
+    <string name="search">搜索</string>
+    <string name="clear_history">清除搜索历史</string>
+    <string name="no_history">没有搜索记录</string>
+    <string name="search_hint">请输入关键词</string>
+    <string name="type">分类</string>
+    <string name="no_data">获取不到数据，请检查网络连接后重新获取</string>
+    <string name="get_failed">获取失败，请重新刷新</string>
+    <string name="refresh">刷新</string>
+    <string name="cook_material">所需食材</string>
+    <string name="cook_progress">制作过程</string>
+    <string name="no_cook_data">找不到相关的菜谱，请重新输入</string>
+    <string name="query_express">查快递</string>
+    <string name="express_input">请输入快递单号</string>
+    <string name="express_auto">自动识别</string>
+    <string name="start_query">开始查询</string>
+    <string name="choose_company">选择物流公司</string>
+    <string name="express_information">物流信息</string>
+    <string name="no_express_data">找不到该单号的物流信息，请返回重新输入</string>
+    <string name="back">返回</string>
+    <string name="query_history">查询历史</string>
+    <string name="user_login">用户登陆</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="no_name_mima">用户名或密码不可为空</string>
+    <string name="input_user_name">手机号/邮箱地址</string>
+    <string name="input_password">请输入密码</string>
+    <string name="user_register">手机号注册</string>
+    <string name="phone_check">手机号验证</string>
+    <string name="user_data_set">填写信息</string>
+    <string name="input_phone">请输入手机号码</string>
+    <string name="next">下一步</string>
+    <string name="input_error_phone">请输入正确的11位手机号</string>
+    <string name="input_empty">账号或密码不可为空</string>
+    <string name="input_check_code">请输入验证码</string>
+    <string name="get_check_code">获取验证码</string>
+    <!--登陆输入限制-->
+    <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.@</string>
+    <!-- QR_Code -->
+
+
+    <string name="button_ok">OK</string>
+
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device. </string>
+
+    <string name="msg_bulk_mode_scanned">Bulk mode: barcode scanned and saved</string>
+
+    <string name="scan_text">放入框中即可进行二维码扫描</string>
+
+    <string name="contents_contact">Contact info</string>
+
+    <string name="contents_email">Email address</string>
+
+    <string name="contents_location">Geographic coordinates</string>
+
+    <string name="contents_phone">Phone number</string>
+
+    <string name="contents_sms">SMS address</string>
+
+    <string name="contents_text">Plain text</string>
+
+    <string name="preferences_vibrate">preferences_vibrate</string>
+
+    <string name="preferences_play_beep">preferences_play_beep</string>
+
+    <string name="preferences_actions_title">When a barcode is found\u2026</string>
+
+    <string name="preferences_copy_to_clipboard_title">Copy to clipboard</string>
+
+    <string name="preferences_decode_1D_title">1D barcodes</string>
+
+    <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+
+    <string name="preferences_decode_QR_title">QR Codes</string>
+
+    <string name="preferences_play_beep_title">Beep</string>
+
+    <string name="preferences_remember_duplicates_summary">Store multiple scans of the same barcode in History</string>
+
+    <string name="preferences_remember_duplicates_title">Remember duplicates</string>
+
+    <string name="preferences_scanning_title">When scanning for barcodes, decode\u2026</string>
+
+    <string name="preferences_supplemental_summary">Try to retrieve more information about the barcode contents</string>
+
+    <string name="preferences_supplemental_title">Retrieve more info</string>
+
+    <string name="preferences_vibrate_title">Vibrate</string>
+
+    <string name="preview_msg"> preview pages available,click Download for more.</string>
+
+
+    <!-- nfc相关 -->
+
+
+    <string name="menu_clear">Clear</string>
+
+    <string name="menu_help">Help</string>
+
+    <string name="menu_about">About</string>
+
+    <string name="btn_copy">Copy</string>
+
+    <string name="btn_nfc">Setting</string>
+
+    <string name="btn_exit">Exit</string>
+
+    <string name="tip_nfc_notfound">no nfc hardware!</string>
+
+    <string name="tip_nfc_disabled">nfc disabled</string>
+
+    <string name="tip_nfc_enabled">nfc enabled</string>
+
+    <string name="msg_reading">Reading Card...</string>
+
+    <string name="msg_nonfc">No NFC hardware found, Program will NOT work.</string>
+
+    <string name="msg_nfcdisabled">NFC hardware has been disabled, Please enable it first. (using the \'Setting\' button to turn it on or off)</string>
+
+    <string name="msg_nocard">No Card been read, Please take the card near to the back cover of phone and try again</string>
+
+    <string name="msg_copied">Card information has been copied to clipboard </string>
+
+    <string name="lab_id">ID:</string>
+
+    <string name="lab_pmm">PMm:</string>
+
+    <string name="lab_serl">SEL:</string>
+
+    <string name="lab_ver">VER:</string>
+
+    <string name="lab_date">DAT:</string>
+
+    <string name="lab_op">USE:</string>
+
+    <string name="lab_log">Log:</string>
+
+    <string name="lab_balance">Balance:</string>
+
+    <string name="lab_cur_cny">CNY</string>
+
+    <string name="lab_cur_hkd">HKD</string>
+
+    <string name="lab_op_time">Time(s)</string>
+
+    <string name="lab_user_id">Card SN:</string>
+
+    <string name="lab_bktg_sn">Book ID:</string>
+
+    <string name="lab_bkcat">Category:</string>
+
+    <string name="name_bkcat_soc">Natural sciences</string>
+
+    <string name="name_bkcat_sci">Social sciences</string>
+
+    <string name="name_bkcat_ltr">Literature</string>
+
+    <string name="name_octopuscard">Octopus Card (Hong Kong)</string>
+
+    <string name="name_szt">Shenzhen Tong</string>
+
+    <string name="name_szt_f">Shenzhen Tong (Old version)</string>
+
+    <string name="name_lnt">Yangcheng Tong</string>
+
+    <string name="name_wht">Wuhan City Smart Card</string>
+
+    <string name="name_cac">Changan Card</string>
+
+    <string name="name_bj">Beijing Municipal Card</string>
+
+    <string name="name_bj_m">Beijing Municipal Card (Old version)</string>
+
+    <string name="name_unknowntag">Unknown Tag</string>
+
+    <string name="name_szlib_center">Shenzhen Library (Center)</string>
+
+    <string name="name_szlib_nanshan">Shenzhen Library (Nanshan)</string>
+
+    <string name="name_lib_readercard">Reader\'s Card</string>
+
+    <string name="name_lib_booktag">Book\'s eTag</string>
+
+
+    -<string name="info_help">
+
+-<![CDATA[
+	<div>Make sure that the NFC sensor is enaled before read card. You can click \'setting\' button to open system configure dialog to confirm.</div>
+	<div>When reading card, please take your card close to NFC sensor of phone (normally, it is at back cover of the phone) and hold a few seconds so that program can read data out.</div><p />
+	<div>phone\'s NFC hardware and os performance is not as good as expect currently, so it may need repeatedly read for whese kind of cards. (In case of always fail, You can try to disable NFC sensor and then re-enable it.)</div><p />
+	<div>So far we\'ve confirmed the following can be read: ShenzhenTong Card (newer version) of Shenzhen, Octopus Card of Hongkong, Reader Card of Shenzhen Library, Beijing Municipal Card (newer version), Changan Card of Shaanxi,Xi\'an, Wuhan City Smart Card. This is an open source application, welcome everyone participation in development,extends it to read more types of card, Also welcome provide test cards.</div>
+	]]>
+</string>
+
+
+    -<string name="info_about">
+
+-<![CDATA[
+	<div><img src="icon_main,16,16" /><big>&nbsp;NFCard&nbsp;</big><version>v</version></div><p />
+	<div>NFCard can read contactless IC card use NFC sensor.</div>
+	<div>Supporte a range of iso7816-3 / iso15693 / felicia compliant e-wallet / RFID cards, and can be extended to support many specific data protocol, e.g. pboc2.0 of china.</div>
+	<div>NFCard can read information like balance of account, transaction log, etc. from these cards </div><p />
+	<div>This is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. see <a href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.</div><p />
+	<div>Newest version and source code can be found at <a href="http://code.google.com/p/nfcard/">code.google.com/p/nfcard</a></div><p /><p />
+	<div>By <a href="mailto:sinpowei@gmail.com">sinpo</a>, 2011.</div>
+	]]>
+</string>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp">
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:minHeight="100dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/update_time"
+            android:layout_width="99dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/textSize"
+            android:textColor="@drawable/express_text_select"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/diver_color"/>
+        <TextView
+            android:id="@+id/progress"
+            android:textSize="@dimen/titleSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textColor="@drawable/express_text_select"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/express_state"
+        android:src="@drawable/express_state_select"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="90dp"
+        tools:ignore="RtlHardcoded" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/diver_color"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/content_layout"
+        android:background="@color/diver_color"/>
+</RelativeLayout>

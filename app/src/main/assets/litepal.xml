@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="demo" ></dbname>
+
+    <version value="7" ></version>
+
+    <list>
+        <mapping class="com.example.ckz.demo1.bean.db.NewsSaveBean"/>
+        <mapping class="com.example.ckz.demo1.bean.db.SearchHistoryBean"/>
+        <mapping class="com.example.ckz.demo1.bean.cookbook.ResultBean"/>
+        <mapping class="com.example.ckz.demo1.bean.cookbook.ListBean"/>
+        <mapping class="com.example.ckz.demo1.bean.db.CookbookSaveBean"/>
+        <mapping class="com.example.ckz.demo1.bean.db.CookbookHistoryBean"/>
+        <mapping class="com.example.ckz.demo1.bean.express.CompanyResultBean"/>
+        <mapping class="com.example.ckz.demo1.bean.db.ExpressSaveBean"/>
+
+    </list>
+</litepal>

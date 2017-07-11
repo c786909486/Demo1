@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_set"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.example.ckz.demo1.activity.user.UserSetActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary">
+        <ImageView
+            style="@style/top_back_style"
+            android:src="@drawable/tool_bar_back"
+            android:id="@id/back_btn"/>
+        <TextView
+            style="@style/top_title_style"
+            android:text="@string/user_data_set"
+            android:textColor="@color/whilte"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+            <com.example.ckz.demo1.view.CircleImageView
+                android:visibility="gone"
+                android:id="@+id/user_icon"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@mipmap/user_normal_icon" />
+            <TextView
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="点击图片选择用户头像"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.example.ckz.demo1.view.ClearEditText
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:hint="请输入昵称"
+                android:id="@+id/input_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.example.ckz.demo1.view.ClearEditText
+                android:visibility="gone"
+                android:hint="请输入邮箱地址（可选）"
+                android:id="@+id/input_email"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:textSize="@dimen/titleSize"
+                android:id="@+id/user_sex"
+                android:padding="10dp"
+                />
+
+            <Button
+                android:id="@+id/complete"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_btn_bg_select"
+                android:text="完成注册"
+                android:textSize="@dimen/titleSize"
+                android:textColor="@color/whilte"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

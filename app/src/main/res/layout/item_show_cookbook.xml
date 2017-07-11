@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:id="@+id/root_layout"
+    android:gravity="center_horizontal">
+    <com.example.ckz.demo1.view.SelectableRoundedImageView
+        android:id="@+id/cook_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:sriv_left_top_corner_radius="10dp"
+        app:sriv_right_top_corner_radius="10dp"
+        app:sriv_border_width="0dp"
+        android:adjustViewBounds="true"
+        />
+    <LinearLayout
+        android:layout_below="@id/cook_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/cook_image"
+        android:layout_alignRight="@id/cook_image"
+        android:orientation="vertical"
+        android:background="@drawable/cookbook_main_item_bg"
+        tools:ignore="RtlHardcoded">
+        <TextView
+            android:textColor="#000000"
+            android:id="@+id/cook_name"
+            android:textSize="@dimen/textSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded" />
+        <TextView
+            android:id="@+id/people_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/searchSize"
+            android:background="@drawable/cookbook_main_item_bg"
+            tools:ignore="RtlHardcoded" />>
+    </LinearLayout>
+
+
+</RelativeLayout>

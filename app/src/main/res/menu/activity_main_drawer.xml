@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/watch_news"
+            android:icon="@mipmap/news"
+            android:title="@string/watch_news" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/watch_cookbook"
+            android:icon="@mipmap/cookbook"
+            android:title="@string/watch_cookbook" />
+        <item
+            android:id="@+id/query_express"
+            android:icon="@mipmap/query_express"
+            android:title="@string/query_express"
+            />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/select_menu">
+        <item
+            android:id="@+id/news_collection"
+            android:icon="@mipmap/collection"
+            android:title="@string/collection" />
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Send" />
+    </group>
+
+</menu>
