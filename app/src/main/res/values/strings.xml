@@ -195,7 +195,8 @@
     <string name="name_lib_booktag">Book\'s eTag</string>
 
 
-    -<string name="info_help">
+    -
+    <string name="info_help">
 
 -<![CDATA[
 	<div>Make sure that the NFC sensor is enaled before read card. You can click \'setting\' button to open system configure dialog to confirm.</div>
@@ -206,7 +207,8 @@
 </string>
 
 
-    -<string name="info_about">
+    -
+    <string name="info_about">
 
 -<![CDATA[
 	<div><img src="icon_main,16,16" /><big>&nbsp;NFCard&nbsp;</big><version>v</version></div><p />
@@ -218,4 +220,14 @@
 	<div>By <a href="mailto:sinpowei@gmail.com">sinpo</a>, 2011.</div>
 	]]>
 </string>
+    <string name="input_comment">请输入评论</string>
+    <string name="send_sucess">发表成功</string>
+    <string name="huifu">回复</string>
+    <string name="dianzan">点赞</string>
+    <string name="cai">踩</string>
+    <string name="cancel">取消</string>
+    <string name="isliked">您已经点过赞了</string>
+    <string name="no_comment">目前没有评论，写条评论吧</string>
+    <string name="comment_hint">写一条评论吧~~</string>
+    <string name="input_keyword">请输入关键词</string>
 </resources>

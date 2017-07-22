@@ -9,7 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.io.File;
 import java.util.ArrayList;
+
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by CKZ on 2017/6/24.
@@ -19,10 +25,6 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
     private ArrayList<T> mData;
     private int mLayoutRes;           //布局id
-
-
-    public CommonAdapter() {
-    }
 
     public CommonAdapter(ArrayList<T> mData, int mLayoutRes) {
         this.mData = mData;
@@ -161,7 +163,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         }
 
         /**
-         * 设置图片
+         * 设置图片资源
          */
         public ViewHolder setImageResource(int id, int drawableRes) {
             View view = getView(id);
@@ -173,6 +175,17 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
             return this;
         }
 
+        /**
+         * 设置文件图片
+         */
+        public ViewHolder setImageFile(int id, BmobFile file) {
+            View view = getView(id);
+            if (view instanceof ImageView) {
+                Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate()
+                        .into((ImageView) view);
+            }
+            return this;
+        }
 
         /**
          * 设置点击监听
@@ -188,6 +201,19 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         public ViewHolder setVisibility(int id, int visible) {
             getView(id).setVisibility(visible);
             return this;
+        }
+        /**
+         * 设置选中
+         */
+        public ViewHolder setSelect(int id, boolean select) {
+            getView(id).setSelected(select);
+            return this;
+        }
+        /**
+         * 是否选中
+         */
+        public boolean isSelected(int id){
+            return getView(id).isSelected();
         }
 
         /**

@@ -18,9 +18,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.cookbook.CookbookDetileActivity;
-import com.example.ckz.demo1.adapter.news.NewsContentAdapter;
 import com.example.ckz.demo1.bean.cookbook.CookbookDataBean;
-import com.example.ckz.demo1.bean.cookbook.CookbookItemBean;
 import com.example.ckz.demo1.util.FastBlurUtil;
 import com.nie.ngallerylibrary.adater.MyPageradapter;
 

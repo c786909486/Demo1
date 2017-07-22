@@ -36,7 +36,7 @@
                 android:textSize="@dimen/textSize"
                 android:drawableLeft="@drawable/search"
                 android:drawablePadding="10dp"
-                android:hint="请输入关键词"
+                android:hint="@string/input_keyword"
                 tools:ignore="HardcodedText"
                 android:maxLines="1"
                 android:imeOptions="actionSearch"

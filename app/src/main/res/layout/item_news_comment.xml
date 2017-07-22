@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+        <com.example.ckz.demo1.view.CircleImageView
+            android:id="@+id/user_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/user_normal_icon"/>
+        <RelativeLayout
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+            <TextView
+                tools:text="name"
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textSize"/>
+            <TextView
+                android:id="@+id/create_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                tools:text="07-16 16:06"
+                android:textSize="@dimen/textSize"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/ding_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ding_select"
+            android:text="0"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:drawablePadding="8dp"
+            android:textSize="@dimen/textSize"
+            />
+
+        <ImageView
+            android:id="@+id/popup_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/menu_item_light"/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginLeft="55dp"
+        android:id="@+id/news_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+</LinearLayout>

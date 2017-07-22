@@ -5,31 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.news.NewsDetilActivity;
-import com.example.ckz.demo1.activity.news.WebActivity;
 import com.example.ckz.demo1.adapter.news.NewsContentAdapter;
-import com.example.ckz.demo1.bean.db.NewsSaveBean;
 import com.example.ckz.demo1.bean.news.NewsBean;
 import com.example.ckz.demo1.http.UrlApi;
-import com.example.ckz.demo1.util.DataChangeUtil;
 import com.example.vuandroidadsdk.okhttp.CommonOkHttpClient;
 import com.example.vuandroidadsdk.okhttp.listener.DisposeDataHandle;
 import com.example.vuandroidadsdk.okhttp.listener.DisposeDataListener;
 import com.example.vuandroidadsdk.okhttp.request.CommonRequest;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;

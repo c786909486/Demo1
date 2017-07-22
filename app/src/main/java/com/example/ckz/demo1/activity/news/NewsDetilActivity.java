@@ -1,11 +1,20 @@
 package com.example.ckz.demo1.activity.news;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,27 +22,37 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.base.BaseActivity;
-import com.example.ckz.demo1.bean.news.NewsBean;
-import com.example.ckz.demo1.bean.db.NewsSaveBean;
-import com.example.ckz.demo1.bean.user.NewsSaveNetBean;
+import com.example.ckz.demo1.activity.user.LoginAcrivity;
+import com.example.ckz.demo1.adapter.CommonAdapter;
+import com.example.ckz.demo1.bean.user.news.CommentNews;
+import com.example.ckz.demo1.bean.user.news.NewsSaveNetBean;
+import com.example.ckz.demo1.bean.user.news.UserNewsComment;
+import com.example.ckz.demo1.cache.ACache;
+import com.example.ckz.demo1.refreshheader.ProgressLayout;
 import com.example.ckz.demo1.user.MyUserModule;
-import com.example.ckz.demo1.util.DataChangeUtil;
 import com.example.ckz.demo1.util.LogUtils;
+import com.example.ckz.demo1.util.SPUtils;
+import com.example.ckz.demo1.view.LoadingDialog;
+import com.example.ckz.demo1.view.NestedListView;
+import com.example.vuandroidadsdk.showpop.ShowPopup;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import org.litepal.crud.DataSupport;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class NewsDetilActivity extends BaseActivity implements View.OnClickListener{
+public class NewsDetilActivity extends BaseActivity implements View.OnClickListener,TextWatcher,AdapterView.OnItemClickListener{
     private static final int NO_COLLECT = 0;
     private static final int COLLECT = 1;
+    private static final int REQUEST_CODE = 100;
     private int currentState;
 
     private MyUserModule userModule;
@@ -50,19 +69,175 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
     private TextView mFrom;
     private TextView mYuanWen;
     private ImageView mCollection;
+    private TwinklingRefreshLayout mRefresh;
+    private EditText mInput;
+    private TextView mSend;
+    private NestedListView mList;
+    private  LoadingDialog dialog;
 
-    private NewsBean.ResultBean.ListBean listBean;
+    private List<UserNewsComment> mData;
+    private CommonAdapter<UserNewsComment> mAdapter;
+    private CommentNews listBean;
+
+    private String objectId;
+    private CommentNews news;
+    private boolean isSave = false;
+
+    private int num = 10;
+    private ACache mACache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detil);
-        listBean = (NewsBean.ResultBean.ListBean) getIntent().getSerializableExtra("NewsData");
         userModule = BmobUser.getCurrentUser(MyUserModule.class);
+        listBean = (CommentNews) getIntent().getSerializableExtra("NewsData");
+        mACache = ACache.get(this);
+        dialog = new LoadingDialog(this);
+        saved();
         initView();
         setData();
         isCollected();
+        setList();
+        setRefresh();
+    }
 
+    private void setRefresh() {
+        mRefresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                getNewsComment(true);
+            }
 
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                getNewsComment(false);
+            }
+        });
+    }
+
+    private void setList(){
+        mData = new ArrayList<>();
+        mAdapter = new CommonAdapter<UserNewsComment>((ArrayList<UserNewsComment>) mData,R.layout.item_news_comment) {
+            @Override
+            public void bindView(final ViewHolder holder, final UserNewsComment obj) {
+                MyUserModule userModule = obj.getUserModule();
+
+                //设置用户头像
+                if (userModule.getUserIcon()!=null) holder.setImageFile(R.id.user_icon,userModule.getUserIcon());
+                //用户昵称
+                holder.setText(R.id.user_name,userModule.getUserNicheng());
+                //发布时间
+                holder.setText(R.id.create_time,obj.getCreatedAt().substring(5,16));
+                //点赞
+                holder.setText(R.id.ding_btn,String.valueOf(obj.getLikes()));
+                if (SPUtils.getBooleanSp(NewsDetilActivity.this,obj.getNewsComment()+obj.getCommentId(),false)){
+                    holder.setSelect(R.id.ding_btn,true);
+                }
+                holder.setOnClickListener(R.id.ding_btn, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (holder.isSelected(R.id.ding_btn)){
+                            //取消点赞
+
+                            UserNewsComment newsComment = new UserNewsComment();
+                            newsComment.setObjectId(obj.getObjectId());
+                            newsComment.setLikes(obj.getLikes());
+                            newsComment.update( new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null){
+                                        holder.setSelect(R.id.ding_btn,false);
+                                        holder.setText(R.id.ding_btn,String.valueOf(obj.getLikes()));
+                                        SPUtils.putBooleanSp(NewsDetilActivity.this,obj.getNewsComment()+obj.getCommentId(),false);
+                                    }
+                                }
+                            });
+                        }else {
+                            //点赞
+
+                            UserNewsComment newsComment = new UserNewsComment();
+                            newsComment.setObjectId(obj.getObjectId());
+                            newsComment.setLikes(obj.getLikes()+1);
+                            newsComment.update( new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null){
+                                        holder.setSelect(R.id.ding_btn,true);
+                                        holder.setText(R.id.ding_btn,String.valueOf(obj.getLikes()+1));
+                                        SPUtils.putBooleanSp(NewsDetilActivity.this,obj.getNewsComment()+obj.getCommentId(),true);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                //显示评论
+                holder.setText(R.id.news_comment,obj.getNewsComment());
+                //弹窗按钮
+                holder.setOnClickListener(R.id.popup_btn, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final ShowPopup popup = new ShowPopup(NewsDetilActivity.this);
+                        popup.createSimplePopupWindow(getString(R.string.huifu),getString(R.string.dianzan),getString(R.string.cai),
+                                getString(R.string.cancel))
+                                .defaultAnim().atBottom(v).setPositionClickListener(new ShowPopup.OnPositionClickListener() {
+                            @Override
+                            public void OnPositionClick(View view, int position) {
+                                switch (position){
+                                    case 0:
+                                        //跳转到回复界面
+                                        intentTo(position);
+                                        popup.closePopupWindow();
+                                        break;
+                                    case 1:
+                                        //点赞
+                                        holder.getView(R.id.ding_btn).performClick();
+                                        popup.closePopupWindow();
+                                        break;
+                                    case 2:
+                                        //踩
+                                        if (holder.isSelected(R.id.ding_btn)){
+                                            Toast.makeText(NewsDetilActivity.this, R.string.isliked,Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            UserNewsComment newsComment = new UserNewsComment();
+                                            newsComment.setObjectId(obj.getObjectId());
+                                            newsComment.setHates(obj.getHates()+1);
+                                            newsComment.update(new UpdateListener() {
+                                                @Override
+                                                public void done(BmobException e) {
+
+                                                }
+                                            });
+                                        }
+                                        popup.closePopupWindow();
+                                        break;
+                                    case 3:
+                                        //取消
+                                        popup.closePopupWindow();
+                                        break;
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        };
+        mList.setAdapter(mAdapter);
+        TextView empty = new TextView(this);
+        empty.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,350));
+        empty.setGravity(Gravity.CENTER);
+        empty.setText(R.string.no_comment);
+        empty.setTextSize(15.0f);
+        empty.setVisibility(View.GONE);
+        ((ViewGroup)mList.getParent()).addView(empty);
+        mList.setEmptyView(empty);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userModule = BmobUser.getCurrentUser(MyUserModule.class);
     }
 
     private void initView() {
@@ -75,12 +250,32 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
         mFrom = (TextView) findViewById(R.id.from);
         mYuanWen = (TextView) findViewById(R.id.read_yuan);
         mCollection = (ImageView) findViewById(R.id.news_collection);
+        mRefresh = (TwinklingRefreshLayout) findViewById(R.id.refresh_layout);
+        mInput = (EditText) findViewById(R.id.comment_input);
+        mSend = (TextView) findViewById(R.id.send_btn);
+        mList = (NestedListView) findViewById(R.id.comment_list);
+
+//        TextView empty = new TextView(this);
+//        empty.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        empty.setGravity(Gravity.CENTER);
+//        empty.setText(R.string.no_comment);
+//        empty.setVisibility(View.GONE);
+//        ((ViewGroup)mList.getParent()).addView(empty);
+//        mList.setEmptyView(empty);
+
+        mRefresh.setHeaderView(new ProgressLayout(this));
 
         mBackBtn.setOnClickListener(this);
         mYuanWen.setOnClickListener(this);
         mCollection.setOnClickListener(this);
+        mSend.setOnClickListener(this);
+        mInput.addTextChangedListener(this);
+        mList.setOnItemClickListener(this);
     }
 
+    /**
+     * 设置显示内容
+     */
     private void setData(){
         //标题
         mNewsTitle.setText(listBean.getTitle());
@@ -99,25 +294,36 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
         if (!listBean.getSrc().equals("")) mFrom.setText(listBean.getSrc());
     }
 
+    /**
+     * 判断新闻是否被收藏
+     */
     private void isCollected(){
        if (userModule != null){
-           List<NewsSaveBean> mData = DataSupport.where("url = ?",listBean.getUrl()).find(NewsSaveBean.class);
-           BmobQuery<NewsSaveNetBean> query = new BmobQuery<NewsSaveNetBean>();
-           query.addWhereEqualTo("url",listBean.getUrl()).findObjects(new FindListener<NewsSaveNetBean>() {
-               @Override
-               public void done(List<NewsSaveNetBean> list, BmobException e) {
-                   if (e == null){
-                       Log.d("SIZE",list.size()+"");
-                       if (list.size() == 0){
-                           currentState = NO_COLLECT;
-                           mCollection.setSelected(false);
-                       }else {
-                           currentState = COLLECT;
-                           mCollection.setSelected(true);
-                       }
-                   }
-               }
-           });
+          if (SPUtils.getBooleanSp(NewsDetilActivity.this,listBean.getUrl()+userModule.getUserId(),false)){
+              currentState = COLLECT;
+              mCollection.setSelected(true);
+          }else {
+              BmobQuery<NewsSaveNetBean> query = new BmobQuery<NewsSaveNetBean>();
+              query.addWhereEqualTo("url",listBean.getUrl()).addWhereEqualTo("userPhone",userModule.getMobilePhoneNumber()).findObjects(new FindListener<NewsSaveNetBean>() {
+                  @Override
+                  public void done(List<NewsSaveNetBean> list, BmobException e) {
+                      if (e == null){
+                          Log.d("SIZE",list.size()+"");
+                          if (list.size() == 0){
+                              currentState = NO_COLLECT;
+                              mCollection.setSelected(false);
+                              SPUtils.putBooleanSp(NewsDetilActivity.this,listBean.getUrl()+userModule.getUserId(),false);
+                          }else {
+                              currentState = COLLECT;
+                              mCollection.setSelected(true);
+                              SPUtils.putBooleanSp(NewsDetilActivity.this,listBean.getUrl()+userModule.getUserId(),true);
+                          }
+                      }else {
+                          LogUtils.d("SAVE","未登陆");
+                      }
+                  }
+              });
+          }
        }
     }
 
@@ -145,14 +351,14 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                         netBean.setTitle(listBean.getTitle());
                         netBean.setUrl(listBean.getUrl());
                         netBean.setWeburl(listBean.getWeburl());
-                        netBean.setUserPhone(BmobUser.getCurrentUser().getUsername());
-                        netBean.setObjectId(listBean.getUrl());
+                        netBean.setUserId(userModule.getUserId());
                         netBean.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
                                 if (e == null){
                                     Toast.makeText(NewsDetilActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
                                     mCollection.setSelected(true);
+                                    SPUtils.putBooleanSp(NewsDetilActivity.this,listBean.getUrl()+userModule.getUserId(),true);
                                     currentState = COLLECT;
                                 }else {
                                     Toast.makeText(NewsDetilActivity.this,"收藏失败"+e.toString(),Toast.LENGTH_SHORT).show();
@@ -161,13 +367,12 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                             }
                         });
 
-
                     }else if (currentState == COLLECT){
 
                         BmobQuery<NewsSaveNetBean> query = new BmobQuery<NewsSaveNetBean>();
                         query.addWhereEqualTo("url",listBean.getUrl()).addWhereEqualTo("userPhone",userModule.getMobilePhoneNumber()).findObjects(new FindListener<NewsSaveNetBean>() {
                             @Override
-                            public void done(List<NewsSaveNetBean> list, BmobException e) {
+                            public void done(final List<NewsSaveNetBean> list, BmobException e) {
                                 if (e == null){
                                     NewsSaveNetBean netBean = new NewsSaveNetBean();
                                     netBean.setObjectId(list.get(0).getObjectId());
@@ -177,6 +382,7 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                                         public void done(BmobException e) {
                                             if (e == null){
                                                 Toast.makeText(NewsDetilActivity.this,"取消收藏",Toast.LENGTH_SHORT).show();
+                                                SPUtils.putBooleanSp(NewsDetilActivity.this,listBean.getUrl()+userModule.getUserId(),false);
                                             }else {
                                                 Toast.makeText(NewsDetilActivity.this,"取消收藏失败",Toast.LENGTH_SHORT).show();
                                             }
@@ -190,12 +396,201 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                             }
                         });
 
-
-                        // sendBroadcast(new Intent("android.intent.action.REFRESH_UI"));
-
                     }
+                }else {
+                    Intent intent1 = new Intent(NewsDetilActivity.this, LoginAcrivity.class);
+                    startActivityForResult(intent1,REQUEST_CODE);
                 }
+                break;
+            case R.id.send_btn:
+               if (mInput.getText().toString().length()>0){
+
+                   UserNewsComment newsComment = new UserNewsComment();
+                   newsComment.setUserModule(userModule);
+                   newsComment.setCommentNews(news);
+                   newsComment.setNewsComment(mInput.getText().toString());
+                   newsComment.setLikes(0);
+                   newsComment.setHates(0);
+                   newsComment.setCommentId((int) System.currentTimeMillis());
+                   newsComment.save(new SaveListener<String>() {
+                       @Override
+                       public void done(String s, BmobException e) {
+                           if (e == null){
+                               mInput.postDelayed(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       getNewsComment(true);
+                                   }
+                               },200);
+                               Toast.makeText(NewsDetilActivity.this, R.string.send_sucess,Toast.LENGTH_SHORT).show();
+                               mInput.setText("");
+                               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                               imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                           }
+                       }
+                   });
+
+               }else {
+                   Toast.makeText(NewsDetilActivity.this, R.string.input_comment,Toast.LENGTH_SHORT).show();
+               }
+               break;
 
         }
+    }
+
+    /**
+     * 新闻是否保存
+     * @return
+     */
+    private boolean saved(){
+
+        dialog.show();
+        if (mACache.getAsObject(listBean.getUrl()+"bean")!=null){
+            news = (CommentNews) mACache.getAsObject(listBean.getUrl()+"bean");
+            objectId = mACache.getAsString(listBean.getUrl());
+            LogUtils.d("currentData",news.getTitle()+objectId);
+            getNewsComment(true);
+        }else {
+            BmobQuery<CommentNews> query = new BmobQuery<CommentNews>();
+            query.addWhereEqualTo("url",listBean.getUrl()).findObjects(new FindListener<CommentNews>() {
+                @Override
+                public void done(List<CommentNews> list, BmobException e) {
+                    if (e == null) {
+
+                        if (list.size() != 0) {
+                            isSave = true;
+                            objectId = list.get(0).getObjectId();
+                            news = list.get(0);
+                            mACache.put(listBean.getUrl(),objectId);
+                            mACache.put(listBean.getUrl()+"bean",news);
+                            LogUtils.d("netData",news.getTitle()+objectId);
+                            getNewsComment(true);
+                        } else {
+                            isSave = false;
+                            news = new CommentNews();
+                            news.setCategory(listBean.getCategory());
+                            news.setContent(listBean.getContent());
+                            news.setPic(listBean.getPic());
+                            news.setSrc(listBean.getSrc());
+                            news.setTime(listBean.getTime());
+                            news.setTitle(listBean.getTitle());
+                            news.setUrl(listBean.getUrl());
+                            news.setWeburl(listBean.getWeburl());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    news.save(new SaveListener<String>() {
+                                        @Override
+                                        public void done(String s, BmobException e) {
+                                            if (e == null){
+                                                objectId = news.getObjectId();
+                                                LogUtils.d("objectId",objectId);
+                                                mACache.put(listBean.getUrl(),objectId);
+                                                mACache.put(listBean.getUrl()+"bean",news);
+                                                LogUtils.d("netData",news.getTitle()+objectId);
+//                                                getNewsComment(true);
+                                                dialog.cancel();
+                                            }
+                                        }
+                                    });
+                                }
+                            }).start();
+                        }
+
+
+                    }
+
+                }
+            });
+        }
+
+        return isSave;
+    }
+
+    /**
+     * 获取新闻评论
+     */
+    private void getNewsComment(boolean isRefresh){
+        BmobQuery<UserNewsComment> query = new BmobQuery<UserNewsComment>();
+        final CommentNews news = new CommentNews();
+        news.setObjectId(objectId);
+        query.addWhereEqualTo("newsSaveNetBean",new BmobPointer(news));
+        query.include("userModule,newsSaveNetBean");
+        query.order("-createdAt");
+        if (isRefresh){
+            query.setSkip(0).setLimit(10).findObjects(new FindListener<UserNewsComment>() {
+                @Override
+                public void done(List<UserNewsComment> list, BmobException e) {
+                    mData.removeAll(list);
+                    mData.addAll(0,list);
+                    mAdapter.notifyDataSetChanged();
+                    mRefresh.finishRefreshing();
+                    dialog.cancel();
+                }
+            });
+        }else {
+            query.setSkip(num).setLimit(10).findObjects(new FindListener<UserNewsComment>() {
+                @Override
+                public void done(List<UserNewsComment> list, BmobException e) {
+                    mData.removeAll(list);
+                    mData.addAll(list);
+                    mAdapter.notifyDataSetChanged();
+                    num +=10;
+                    mRefresh.finishLoadmore();
+                }
+            });
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK){
+                    mCollection.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCollection.performClick();
+                        }
+                    },1000);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length()>0){
+            mSend.setSelected(true);
+            if (s.length()>=10){
+                mInput.setKeyListener(null);
+            }
+        }else {
+            mSend.setSelected(false);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+       intentTo(position);
+    }
+
+    private void intentTo(int position){
+        Intent intent = new Intent(this,CommentDetialActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("commentData",mData.get(position));
+        intent.putExtra("bundleData",bundle);
+        startActivity(intent);
     }
 }

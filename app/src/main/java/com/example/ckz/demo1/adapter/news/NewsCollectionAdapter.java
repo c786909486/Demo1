@@ -1,7 +1,6 @@
 package com.example.ckz.demo1.adapter.news;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
-import com.example.ckz.demo1.bean.db.NewsSaveBean;
-import com.example.ckz.demo1.bean.user.NewsSaveNetBean;
+import com.example.ckz.demo1.bean.user.news.NewsSaveNetBean;
 
 import java.util.List;
 
@@ -124,7 +122,6 @@ public class NewsCollectionAdapter extends BaseAdapter {
         if (!mData.get(position).getTitle().equals(""))title.setText(mData.get(position).getTitle());
         if (!mData.get(position).getTime().equals(""))sendTime.setText(mData.get(position).getTime().substring(0,10));
         if (!mData.get(position).getSrc().equals(""))from.setText("来自:"+mData.get(position).getSrc());
-        Log.d("Tag",mData.get(position).getTitle());
     }
 
     class NewsImageHolder{

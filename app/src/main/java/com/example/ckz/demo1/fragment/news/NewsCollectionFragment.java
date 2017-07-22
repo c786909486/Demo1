@@ -2,7 +2,6 @@ package com.example.ckz.demo1.fragment.news;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ckz.demo1.R;
@@ -19,18 +17,16 @@ import com.example.ckz.demo1.activity.news.MainActivity;
 import com.example.ckz.demo1.activity.news.NewsDetilActivity;
 import com.example.ckz.demo1.adapter.news.NewsCollectionAdapter;
 import com.example.ckz.demo1.bean.news.NewsBean;
-import com.example.ckz.demo1.bean.db.NewsSaveBean;
-import com.example.ckz.demo1.bean.user.NewsSaveNetBean;
+
+import com.example.ckz.demo1.bean.user.news.CommentNews;
+import com.example.ckz.demo1.bean.user.news.NewsSaveNetBean;
 import com.example.ckz.demo1.fragment.base.BaseFragment;
 import com.example.ckz.demo1.util.DataChangeUtil;
 import com.example.ckz.demo1.view.LoadListView;
 
-import org.litepal.crud.DataSupport;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -150,7 +146,7 @@ public class NewsCollectionFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NewsBean.ResultBean.ListBean listBean = DataChangeUtil.save2news(mData.get(position));
+        CommentNews listBean = DataChangeUtil.save2news(mData.get(position));
 
         Intent intent = new Intent(getContext(), NewsDetilActivity.class);
         intent.putExtra("NewsData",listBean);

@@ -148,15 +148,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case REQUEST_CODE:
-                if (resultCode == RESULT_OK){
-                    setUserData();
-
-                }
-                break;
-        }
+    protected void onStart() {
+        super.onStart();
+        setUserData();
     }
 
     @Override
@@ -167,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MyUserModule userModule = BmobUser.getCurrentUser(MyUserModule.class);
                 if (userModule == null){
                     Intent intent = new Intent(MainActivity.this, LoginAcrivity.class);
-                    startActivityForResult(intent,REQUEST_CODE);
+                    startActivity(intent);
 
                 }else {
                     //跳转到个人中心

@@ -16,7 +16,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="68ce2701b6c74406cb15f4e0bcd6d415d6523b3d">
+        sha1="b92da32fd9e97b6308ab83014cc745dd74a4d8a9">
         <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10000\instant-run-bootstrap_1a734a71e033148df8af9f68ea26bf27ca5f7755\classes.dex" />
     </item>
     <item
@@ -72,6 +72,24 @@
         revision="25.0.2"
         sha1="b9000943d77c17d231bf3141a712828f2636c2ea">
         <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\2\photoview-library-1.2.2_a43a4eeae32ba83da795b7f2c974daae45a66474\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\CKZ\.android\build-cache\c8857f727dd6de9ca6cccee11ea40af4cb47bad7\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0e753ea8d0a2dea270da7d96a7d6e9d2e9c10f94">
+        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10\classes_8e11a01643797560f734c206058dc6e17858fded\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="J:\Andriod\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.0-alpha8\constraint-layout-solver-1.0.0-alpha8.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="80c371a4fd5e1b77f0e3a25b171356878543ffdd">
+        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10\constraint-layout-solver-1.0.0-alpha8_9ec3a517491e7a87e5f87c621d85e0706a017715\classes.dex" />
     </item>
     <item
         is-multidex="true"

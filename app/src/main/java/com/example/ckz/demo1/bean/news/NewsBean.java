@@ -1,7 +1,6 @@
 package com.example.ckz.demo1.bean.news;
 
-import org.litepal.crud.DataSupport;
-
+import com.example.ckz.demo1.bean.user.news.CommentNews;
 import java.io.Serializable;
 import java.util.List;
 

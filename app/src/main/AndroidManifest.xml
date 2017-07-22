@@ -84,7 +84,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.news.NewsDetilActivity" />
+        <activity
+            android:name=".activity.news.NewsDetilActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.news.WebActivity" />
         <activity android:name=".activity.news.SearchActivity" />
         <activity
@@ -223,7 +225,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".activity.user.UserCenterActivity"></activity>
+        <activity android:name=".activity.user.UserCenterActivity" />
+        <activity android:name=".activity.news.CommentDetialActivity"></activity>
     </application>
 
 </manifest>

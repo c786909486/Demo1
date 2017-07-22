@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.bean.news.NewsBean;
+import com.example.ckz.demo1.bean.user.news.CommentNews;
 
 import java.util.List;
 

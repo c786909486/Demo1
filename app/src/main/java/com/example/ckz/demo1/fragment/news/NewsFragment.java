@@ -18,10 +18,13 @@ import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.news.NewsDetilActivity;
 import com.example.ckz.demo1.adapter.news.NewsContentAdapter;
 import com.example.ckz.demo1.bean.news.NewsBean;
+import com.example.ckz.demo1.bean.user.news.CommentNews;
 import com.example.ckz.demo1.cache.ACache;
 import com.example.ckz.demo1.fragment.base.BaseFragment;
 import com.example.ckz.demo1.http.UrlApi;
+import com.example.ckz.demo1.util.DataChangeUtil;
 import com.example.ckz.demo1.util.LogUtils;
+import com.example.ckz.demo1.util.SPUtils;
 import com.example.vuandroidadsdk.okhttp.CommonOkHttpClient;
 import com.example.vuandroidadsdk.okhttp.listener.DisposeDataHandle;
 import com.example.vuandroidadsdk.okhttp.listener.DisposeDataListener;
@@ -102,6 +105,7 @@ public class NewsFragment extends BaseFragment implements NewsContentAdapter.OnI
             mData.addAll(newsBean.getResult().getList());
             mAdapter.notifyDataSetChanged();
         }else {
+            mSwipe.setRefreshing(true);
             getNetNews(true,0);
         }
     }
@@ -140,6 +144,8 @@ public class NewsFragment extends BaseFragment implements NewsContentAdapter.OnI
                     int nowNun = mData.size();
                     int upSize = nowNun - lastNum;
                     Toast.makeText(getContext(),"又找到了"+upSize+"条新闻",Toast.LENGTH_SHORT).show();
+                    SPUtils.putlongSp(getContext(),"refreshTime",System.currentTimeMillis());
+
                 }else {
                     mData.addAll(newsBean.getResult().getList());
                 }
@@ -159,7 +165,21 @@ public class NewsFragment extends BaseFragment implements NewsContentAdapter.OnI
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getContext(), NewsDetilActivity.class);
-        intent.putExtra("NewsData",mData.get(position));
+        intent.putExtra("NewsData", DataChangeUtil.commentNews(mData.get(position)));
         startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (System.currentTimeMillis()-SPUtils.getlongSp(getContext(),"refreshTime")>2*60*60*1000){
+           mSwipe.post(new Runnable() {
+               @Override
+               public void run() {
+                   mSwipe.setRefreshing(true);
+                   getNetNews(true,0);
+               }
+           });
+        }
     }
 }

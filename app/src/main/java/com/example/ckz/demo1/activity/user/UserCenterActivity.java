@@ -3,6 +3,7 @@ package com.example.ckz.demo1.activity.user;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +15,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.base.BaseActivity;
+import com.example.ckz.demo1.adapter.pagerAdapter.MyPagerAdapter;
+import com.example.ckz.demo1.fragment.user.UserNewsCollectFragment;
+import com.example.ckz.demo1.fragment.user.UserNewsCommentFragment;
+import com.example.ckz.demo1.interfaces.OnRefreshSucess;
 import com.example.ckz.demo1.user.MyUserModule;
+import com.example.ckz.demo1.util.LogUtils;
 import com.example.ckz.demo1.view.CircleImageView;
+import com.example.ckz.demo1.view.LoadingDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
@@ -38,8 +48,13 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
      * viewpager
      */
     private ViewPager mPager;
+    private MyPagerAdapter myPagerAdapter;
+
+    private List<Fragment> mList;
+    private List<String> mTitle;
 
     private MyUserModule user;
+    private LoadingDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +82,43 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
         mUserIcon = (CircleImageView) findViewById(R.id.user_icon);
         mUserName = (TextView) findViewById(R.id.user_name);
         mTab = (TabLayout) findViewById(R.id.user_tab);
+        mTab.setTabMode(TabLayout.MODE_FIXED);
         //viewpager
         mPager = (ViewPager) findViewById(R.id.user_view_pager);
+        setViewPager();
+        loading = new LoadingDialog(this);
+    }
+
+    private void setViewPager(){
+        mTitle = new ArrayList<>();
+        mList = new ArrayList<>();
+        mTitle.add("新闻收藏");
+        mTitle.add("我的评论");
+        UserNewsCollectFragment userNewsCollectFragment = new UserNewsCollectFragment();
+        userNewsCollectFragment.setOnRefreshSucessListener(new OnRefreshSucess() {
+            @Override
+            public void onRefreshStaet() {
+                LogUtils.d("UserCenterActivity","开始刷新");
+                loading.show();
+            }
+
+            @Override
+            public void onRefreshSucess(boolean sucess) {
+                if (sucess){
+                    LogUtils.d("UserCenterActivity","刷新成功");
+                }else {
+                    LogUtils.d("UserCenterActivity","刷新失败");
+                }
+                loading.cancel();
+            }
+        });
+        mList.add(userNewsCollectFragment);
+        UserNewsCommentFragment userNewsCommentFragment = new UserNewsCommentFragment();
+        mList.add(userNewsCommentFragment);
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),mList,mTitle);
+        mPager.setAdapter(myPagerAdapter);
+        mTab.setupWithViewPager(mPager);
+
     }
 
     /**
@@ -118,9 +168,9 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
                 } else {
                     if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
                         if(state == CollapsingToolbarLayoutState.COLLAPSED){
-                            mTopUserName.setText("");
-                        }else {
                             mTopUserName.setText(user.getUserNicheng());
+                        }else {
+                            mTopUserName.setText("");
                         }
 
                         state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
