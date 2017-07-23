@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.example.ckz.demo1.util.SPUtils;
 import com.example.ckz.demo1.view.LoadingDialog;
 import com.example.ckz.demo1.view.NestedListView;
 import com.example.vuandroidadsdk.showpop.ShowPopup;
+import com.example.vuandroidadsdk.utils.ShowToastUtil;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -68,11 +70,15 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
     private TextView mTime;
     private TextView mFrom;
     private TextView mYuanWen;
-    private ImageView mCollection;
+    private NestedListView mList;
     private TwinklingRefreshLayout mRefresh;
+    /**
+     * bottomUI
+     */
     private EditText mInput;
     private TextView mSend;
-    private NestedListView mList;
+    private ImageView mCollection;
+
     private  LoadingDialog dialog;
 
     private List<UserNewsComment> mData;
@@ -224,6 +230,9 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
             }
         };
         mList.setAdapter(mAdapter);
+        setEmpty(mList);
+    }
+    private void setEmpty(ListView mList){
         TextView empty = new TextView(this);
         empty.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,350));
         empty.setGravity(Gravity.CENTER);
@@ -249,19 +258,11 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
         mTime = (TextView) findViewById(R.id.publish_time);
         mFrom = (TextView) findViewById(R.id.from);
         mYuanWen = (TextView) findViewById(R.id.read_yuan);
-        mCollection = (ImageView) findViewById(R.id.news_collection);
         mRefresh = (TwinklingRefreshLayout) findViewById(R.id.refresh_layout);
+        mCollection = (ImageView) findViewById(R.id.news_collection);
         mInput = (EditText) findViewById(R.id.comment_input);
         mSend = (TextView) findViewById(R.id.send_btn);
         mList = (NestedListView) findViewById(R.id.comment_list);
-
-//        TextView empty = new TextView(this);
-//        empty.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        empty.setGravity(Gravity.CENTER);
-//        empty.setText(R.string.no_comment);
-//        empty.setVisibility(View.GONE);
-//        ((ViewGroup)mList.getParent()).addView(empty);
-//        mList.setEmptyView(empty);
 
         mRefresh.setHeaderView(new ProgressLayout(this));
 
@@ -339,6 +340,7 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                 intent.putExtra("webUrl",listBean.getWeburl());
                 startActivity(intent);
                 break;
+            //新闻收藏
             case R.id.news_collection:
                 if (userModule!=null){
                     if (currentState == NO_COLLECT){
@@ -402,6 +404,7 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                     startActivityForResult(intent1,REQUEST_CODE);
                 }
                 break;
+            //发送评论
             case R.id.send_btn:
                if (mInput.getText().toString().length()>0){
 
@@ -411,27 +414,28 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                    newsComment.setNewsComment(mInput.getText().toString());
                    newsComment.setLikes(0);
                    newsComment.setHates(0);
+                   newsComment.setCommentSize(0);
                    newsComment.setCommentId((int) System.currentTimeMillis());
                    newsComment.save(new SaveListener<String>() {
                        @Override
                        public void done(String s, BmobException e) {
-                           if (e == null){
+                           if (e == null) {
                                mInput.postDelayed(new Runnable() {
                                    @Override
                                    public void run() {
                                        getNewsComment(true);
                                    }
-                               },200);
-                               Toast.makeText(NewsDetilActivity.this, R.string.send_sucess,Toast.LENGTH_SHORT).show();
-                               mInput.setText("");
-                               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                               imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                               }, 200);
                            }
+                           ShowToastUtil.showToast(NewsDetilActivity.this,R.string.send_sucess);
+                           mInput.setText("");
+//                           mInput.setFocusable(false);
+                           InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                           imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                        }
                    });
-
                }else {
-                   Toast.makeText(NewsDetilActivity.this, R.string.input_comment,Toast.LENGTH_SHORT).show();
+                   ShowToastUtil.showToast(NewsDetilActivity.this,R.string.input_comment);
                }
                break;
 
@@ -521,22 +525,30 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
             query.setSkip(0).setLimit(10).findObjects(new FindListener<UserNewsComment>() {
                 @Override
                 public void done(List<UserNewsComment> list, BmobException e) {
-                    mData.removeAll(list);
-                    mData.addAll(0,list);
-                    mAdapter.notifyDataSetChanged();
-                    mRefresh.finishRefreshing();
-                    dialog.cancel();
+                   if (e == null){
+                       mData.removeAll(list);
+                       mData.addAll(0,list);
+                       mAdapter.notifyDataSetChanged();
+                       mRefresh.finishRefreshing();
+                       dialog.cancel();
+                   }else {
+                       Toast.makeText(NewsDetilActivity.this, R.string.net_error,Toast.LENGTH_SHORT).show();
+                   }
                 }
             });
         }else {
             query.setSkip(num).setLimit(10).findObjects(new FindListener<UserNewsComment>() {
                 @Override
                 public void done(List<UserNewsComment> list, BmobException e) {
-                    mData.removeAll(list);
-                    mData.addAll(list);
-                    mAdapter.notifyDataSetChanged();
-                    num +=10;
-                    mRefresh.finishLoadmore();
+                   if (e == null){
+                       mData.removeAll(list);
+                       mData.addAll(list);
+                       mAdapter.notifyDataSetChanged();
+                       num +=10;
+                       mRefresh.finishLoadmore();
+                   }else {
+                       Toast.makeText(NewsDetilActivity.this, R.string.net_error,Toast.LENGTH_SHORT).show();
+                   }
                 }
             });
         }

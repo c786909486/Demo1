@@ -18,11 +18,19 @@ public class UserNewsComment extends BmobObject{
 
     private UserNewsComment preComment;
 
+    private UserNewsComment preComment2;
+
+    private MyUserModule preUser;
+
     private Integer likes;
 
     private Integer hates;
 
+    private Integer commentSize;
+
     private int commentId;
+
+    private String preUserName;
 
 
     @Override
@@ -44,6 +52,30 @@ public class UserNewsComment extends BmobObject{
         return result;
     }
 
+    public String getPreUserName() {
+        return preUserName;
+    }
+
+    public void setPreUserName(String preUserName) {
+        this.preUserName = preUserName;
+    }
+
+    public MyUserModule getPreUser() {
+        return preUser;
+    }
+
+    public void setPreUser(MyUserModule preUser) {
+        this.preUser = preUser;
+    }
+
+    public Integer getCommentSize() {
+        return commentSize;
+    }
+
+    public void setCommentSize(Integer commentSize) {
+        this.commentSize = commentSize;
+    }
+
     public int getCommentId() {
         return commentId;
     }
@@ -58,6 +90,14 @@ public class UserNewsComment extends BmobObject{
 
     public void setPreComment(UserNewsComment preComment) {
         this.preComment = preComment;
+    }
+
+    public UserNewsComment getPreComment2() {
+        return preComment2;
+    }
+
+    public void setPreComment2(UserNewsComment preComment2) {
+        this.preComment2 = preComment2;
     }
 
     public Integer getLikes() {

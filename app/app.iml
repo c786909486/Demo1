@@ -41,13 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayerDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayerDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayerDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/googleplayer/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/googleplayer/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/assets" type="java-test-resource" />
@@ -55,6 +48,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testGoogleplayerDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/googleplayer/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/googleplayer/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/googleplayer/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayer/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayer/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/googleplayer/assets" type="java-resource" />
@@ -191,7 +191,7 @@
     <orderEntry type="module" module-name="vuandroidadsdk" exported="" />
     <orderEntry type="library" exported="" name="org.apache.http.legacy-android-25" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.8" level="project" />
-    <orderEntry type="library" exported="" name="okio-1.12.0" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.13.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-3.8.1" level="project" />
   </component>
 </module>

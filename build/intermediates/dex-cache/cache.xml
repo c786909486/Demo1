@@ -48,15 +48,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="J:\myProject\Demo1\app\build\intermediates\incremental-runtime-classes\googleplayer\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10000\instant-run_894246fd6c574e166ad286f7930ea4f4e2f660cd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="J:\myProject\Demo1\app\libs\litepal-1.5.1-src.jar"
         jumboMode="true"
         optimize="true"
@@ -90,6 +81,33 @@
         revision="25.0.2"
         sha1="80c371a4fd5e1b77f0e3a25b171356878543ffdd">
         <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10\constraint-layout-solver-1.0.0-alpha8_9ec3a517491e7a87e5f87c621d85e0706a017715\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\CKZ\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.8.1\4d060ca3190df0eda4dc13415532a12e15ca5f11\okhttp-3.8.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4d060ca3190df0eda4dc13415532a12e15ca5f11">
+        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10\okhttp-3.8.1_2d569f09475fe59955530ea1ef12206beba00abd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\CKZ\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10\okio-1.13.0_b90c7acc2aebe96f3b704e1878490eebc05fb54b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="J:\myProject\Demo1\app\build\intermediates\incremental-runtime-classes\googleplayer\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="J:\myProject\Demo1\app\build\intermediates\transforms\dex\googleplayer\debug\folders\1000\10000\instant-run_894246fd6c574e166ad286f7930ea4f4e2f660cd\classes.dex" />
     </item>
     <item
         is-multidex="true"

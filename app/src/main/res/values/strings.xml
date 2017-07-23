@@ -230,4 +230,6 @@
     <string name="no_comment">目前没有评论，写条评论吧</string>
     <string name="comment_hint">写一条评论吧~~</string>
     <string name="input_keyword">请输入关键词</string>
+    <string name="net_error">网络连接失败</string>
+    <string name="all_comment">——全 部 评 论——</string>
 </resources>
