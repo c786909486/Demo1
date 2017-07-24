@@ -129,7 +129,7 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                 MyUserModule userModule = obj.getUserModule();
 
                 //设置用户头像
-                if (userModule.getUserIcon()!=null) holder.setImageFile(R.id.user_icon,userModule.getUserIcon());
+                if (userModule.getUserIcon()!=null) holder.setImage(R.id.user_icon,userModule.getUserIcon());
                 //用户昵称
                 holder.setText(R.id.user_name,userModule.getUserNicheng());
                 //发布时间

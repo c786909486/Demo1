@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +24,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.base.BaseActivity;
 import com.example.ckz.demo1.adapter.CommonAdapter;
-import com.example.ckz.demo1.bean.user.news.CommentNews;
 import com.example.ckz.demo1.bean.user.news.UserNewsComment;
 import com.example.ckz.demo1.user.MyUserModule;
 import com.example.ckz.demo1.util.SPUtils;
@@ -31,12 +31,14 @@ import com.example.ckz.demo1.view.CircleImageView;
 import com.example.ckz.demo1.view.NestedListView;
 import com.example.vuandroidadsdk.showpop.ShowPopup;
 import com.example.vuandroidadsdk.utils.ShowToastUtil;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.b.V;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
@@ -60,6 +62,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
     private TextView mComment;
     private LinearLayout mNewsLayout;
     private NestedListView mList;
+    private TwinklingRefreshLayout mRefresh;
     /**
      * bottom UI
      */
@@ -86,6 +89,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
         initView();
         setUI();
         getNewsComment(true);
+        setRefresh();
     }
 
     /**
@@ -108,12 +112,32 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
         mInput = (EditText) findViewById(R.id.comment_input);
         mSend = (TextView) findViewById(R.id.send_btn);
         mList = (NestedListView) findViewById(R.id.comment_list);
+        mRefresh = (TwinklingRefreshLayout) findViewById(R.id.refresh_layout);
 
         mNewsLayout.setOnClickListener(this);
         mCollection.setOnClickListener(this);
         mSend.setOnClickListener(this);
         mInput.addTextChangedListener(this);
         mList.setOnItemClickListener(this);
+    }
+    /**
+     * 设置刷新加载
+     */
+    private void setRefresh(){
+        ProgressLayout header = new ProgressLayout(this);
+        header.setColorSchemeResources(R.color.colorPrimary);
+        mRefresh.setHeaderView(header);
+        mRefresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                getNewsComment(true);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                getNewsComment(false);
+            }
+        });
     }
 
     /**
@@ -153,7 +177,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
                 MyUserModule userModule = obj.getUserModule();
 
                 //设置用户头像
-                if (userModule.getUserIcon()!=null) holder.setImageFile(R.id.user_icon,userModule.getUserIcon());
+                if (userModule.getUserIcon()!=null) holder.setImage(R.id.user_icon,userModule.getUserIcon());
                 //用户昵称
                 holder.setText(R.id.user_name,userModule.getUserNicheng());
                 //发布时间
@@ -204,7 +228,8 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
 
                 //显示评论
                 if (obj.getPreUser()!=null){
-                    holder.setText(R.id.news_comment,"回复 "+obj.getPreUser().getUserNicheng()+"："+obj.getNewsComment());
+//                    holder.setText(R.id.news_comment,"回复 "+obj.getPreUser().getUserNicheng()+"："+obj.getNewsComment());
+                    holder.setText(R.id.news_comment,Html.fromHtml("<font color=\"gray\">回复 "+obj.getPreUser().getUserNicheng()+"：</font>"+obj.getNewsComment()));
                 }else {
                     holder.setText(R.id.news_comment,obj.getNewsComment());
                 }
@@ -299,7 +324,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
                         mData.removeAll(list);
                         mData.addAll(0,list);
                         mAdapter.notifyDataSetChanged();
-//                        mRefresh.finishRefreshing();
+                        mRefresh.finishRefreshing();
 //                        dialog.cancel();
                     }else {
                         Toast.makeText(context, R.string.net_error,Toast.LENGTH_SHORT).show();
@@ -315,7 +340,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
                         mData.addAll(list);
                         mAdapter.notifyDataSetChanged();
                         num +=10;
-//                        mRefresh.finishLoadmore();
+                        mRefresh.finishLoadmore();
                     }else {
                         Toast.makeText(context, R.string.net_error,Toast.LENGTH_SHORT).show();
                     }
@@ -399,6 +424,11 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /**
+     * 发送评论
+     * @param comment
+     * @param preUser
+     */
     private void sendComment(final String comment, final MyUserModule preUser){
         final UserNewsComment newsComment = new UserNewsComment();
         newsComment.setUserModule(userModule);
@@ -413,14 +443,12 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
             @Override
             public void done(String s, BmobException e) {
                 if (e == null){
-//                    mData.add(0,newsComment);
-//                    mAdapter.notifyDataSetChanged();
+//
                     getNewsComment(true);
                     ShowToastUtil.showToast(context,R.string.send_sucess);
                     mInput.setText("");
                     mInput.setHint("回复"+commentData.getUserModule().getUserNicheng()+"：");
 
-//                           mInput.setFocusable(false);
                     isBelow = false;
                     closeKeyboard();
                 }else {

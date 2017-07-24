@@ -165,7 +165,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         /**
          * 设置图片资源
          */
-        public ViewHolder setImageResource(int id, int drawableRes) {
+        public ViewHolder setImage(int id, int drawableRes) {
             View view = getView(id);
             if (view instanceof ImageView) {
                 ((ImageView) view).setImageResource(drawableRes);
@@ -178,10 +178,21 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         /**
          * 设置文件图片
          */
-        public ViewHolder setImageFile(int id, BmobFile file) {
+        public ViewHolder setImage(int id, BmobFile file) {
             View view = getView(id);
             if (view instanceof ImageView) {
                 Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate()
+                        .into((ImageView) view);
+            }
+            return this;
+        }
+        /**
+         * 设置文件图片
+         */
+        public ViewHolder setImage(int id, String url) {
+            View view = getView(id);
+            if (view instanceof ImageView) {
+                Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate()
                         .into((ImageView) view);
             }
             return this;

@@ -232,4 +232,5 @@
     <string name="input_keyword">请输入关键词</string>
     <string name="net_error">网络连接失败</string>
     <string name="all_comment">——全 部 评 论——</string>
+    <string name="no_user_comment">您还没有评论过哦~~~</string>
 </resources>
