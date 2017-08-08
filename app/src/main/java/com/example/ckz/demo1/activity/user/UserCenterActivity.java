@@ -1,5 +1,6 @@
 package com.example.ckz.demo1.activity.user;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+
 
 public class UserCenterActivity extends BaseActivity implements View.OnClickListener{
     /**
@@ -60,15 +62,16 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_center);
-        user = BmobUser.getCurrentUser(MyUserModule.class);
         initView();
         setClick();
         setScroll();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        user = BmobUser.getCurrentUser(MyUserModule.class);
         setUserData();
     }
 
@@ -89,6 +92,9 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
         loading = new LoadingDialog(this);
     }
 
+    /**
+     * 设置viewpager
+     */
     private void setViewPager(){
         mTitle = new ArrayList<>();
         mList = new ArrayList<>();
@@ -130,7 +136,7 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
         if (user.getUserIcon() == null){
             mUserIcon.setImageResource(R.mipmap.user_normal_icon);
         }else {
-            Glide.with(this).load(user.getUserIcon()).into(mUserIcon);
+            Glide.with(this).load(user.getUserIcon().getUrl()).into(mUserIcon);
         }
         //用户背景图
         if (user.getUserBg() == null){
@@ -184,6 +190,8 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
     private void setClick() {
         findViewById(R.id.back_btn).setOnClickListener(this);
         mUserIcon.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -194,7 +202,7 @@ public class UserCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.user_icon:
                 //跳转到信息设置
-
+                startActivity(new Intent(UserCenterActivity.this,UserSettingActivity.class));
                 break;
         }
     }

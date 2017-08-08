@@ -25,10 +25,7 @@
             android:id="@+id/news_collection"
             android:icon="@mipmap/collection"
             android:title="@string/collection" />
-        <item
-            android:id="@+id/nav_send"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Send" />
+        
     </group>
 
 </menu>

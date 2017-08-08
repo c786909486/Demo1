@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mostBackground">
+   <!--topbar-->
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary">
+        <ImageView
+            style="@style/top_back_style"
+            android:src="@drawable/tool_bar_back"
+            android:id="@+id/back_btn"/>
+        <TextView
+            style="@style/top_title_style"
+            android:text="@string/user_center"
+            android:textColor="@color/whilte"/>
+    </RelativeLayout>
+    <!--content-->
+    <ScrollView
+        android:layout_below="@id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:divider="@drawable/horizontal_line"
+            android:orientation="vertical"
+            android:showDividers="middle">
+            <!--头像布局-->
+            <LinearLayout
+                android:id="@+id/user_icon_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/user_icon"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/user_icon"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    app:riv_corner_radius="5dp"
+                    tools:src="@color/grayColor" />
+            </LinearLayout>
+            <!--昵称-->
+            <LinearLayout
+                android:id="@+id/user_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:minHeight="55dp"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/nicheng"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/grayColor"
+                    android:textSize="@dimen/smallTextSize"
+                    tools:text="用户名" />
+            </LinearLayout>
+            <!--uid-->
+            <LinearLayout
+                android:id="@+id/user_id_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:minHeight="55dp"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/uid"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <TextView
+                    android:id="@+id/user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/grayColor"
+                    android:textSize="@dimen/smallTextSize"
+                    tools:text="1231231" />
+            </LinearLayout>
+            <!--性别-->
+            <LinearLayout
+                android:id="@+id/user_sex_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:minHeight="55dp"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/sex"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <TextView
+                    android:id="@+id/user_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/grayColor"
+                    android:textSize="@dimen/smallTextSize"
+                    tools:text="男" />
+            </LinearLayout>
+            <!--个性签名-->
+            <LinearLayout
+                android:id="@+id/user_design_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:minHeight="55dp"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/user_design"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <TextView
+                    android:id="@+id/user_design"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="100dp"
+                    android:textColor="@color/grayColor"
+                    android:textSize="@dimen/smallTextSize"
+                    tools:text="啊手机打开拉萨的卡是你的就看到就卡" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_horizontal_margin"/>
+            <!--设置-->
+            <LinearLayout
+                android:id="@+id/user_setting_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_bg"
+                android:descendantFocusability="blocksDescendants"
+                android:gravity="center_vertical"
+                android:minHeight="55dp"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/setting"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <!--退出登陆-->
+    <TextView
+        android:id="@+id/quit_btn"
+        android:background="@color/whilte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp"
+        android:textSize="@dimen/titleSize"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/quit"/>
+</RelativeLayout>

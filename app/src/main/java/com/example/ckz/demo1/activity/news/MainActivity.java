@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.cookbook.CookbookMainActivity;
 import com.example.ckz.demo1.activity.express.ExpressMainActivity;
@@ -67,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mUserName.setText("点击登陆");
         }else {
             mUserName.setText(userModule.getUserNicheng());
+            if (userModule.getUserIcon()==null){
+                mUserIcon.setImageResource(R.mipmap.user_normal_icon);
+            }else {
+                Glide.with(MainActivity.this).load(userModule.getUserIcon().getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(mUserIcon);
+            }
         }
     }
 
@@ -133,10 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent expressIntent = new Intent(MainActivity.this, ExpressMainActivity.class);
                 startActivity(expressIntent);
                 mDrawer.closeDrawer(mNavigation);
-                break;
-            case R.id.nav_send:
-                MyUserModule.logOut();
-                setUserData();
                 break;
             default:
                 mDrawer.closeDrawer(GravityCompat.START);

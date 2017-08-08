@@ -51,12 +51,14 @@ public class LoginAcrivity extends BaseActivity implements View.OnClickListener{
         TextChange change = new TextChange();
         mUserName.addTextChangedListener(change);
         mPassword.addTextChangedListener(change);
+
     }
 
     private void setClick() {
         findViewById(R.id.back_btn).setOnClickListener(this);
         mLoginBtn.setOnClickListener(this);
         mRegister.setOnClickListener(this);
+        findViewById(R.id.forget_btn).setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +77,9 @@ public class LoginAcrivity extends BaseActivity implements View.OnClickListener{
             case R.id.register_btn:
                 Intent intent = new Intent(LoginAcrivity.this,RegisterActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.forget_btn:
+                startActivity(new Intent(LoginAcrivity.this,ForgetPasswordActivity.class));
                 break;
         }
     }

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -145,7 +146,7 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
      */
     private void setUI(){
         BmobFile userIcon = commentData.getUserModule().getUserIcon();
-        if (userIcon!=null) Glide.with(this).load(userIcon).into(mUserIcon);
+        if (userIcon!=null) Glide.with(this).load(userIcon.getUrl()).into(mUserIcon);
         mUserName.setText(commentData.getUserModule().getUserNicheng());
         mCreateTime.setText(commentData.getCreatedAt().substring(5,16));
         mComment.setText(commentData.getNewsComment());
@@ -237,12 +238,12 @@ public class CommentDetialActivity extends BaseActivity implements View.OnClickL
                 holder.setOnClickListener(R.id.popup_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final ShowPopup popup = new ShowPopup(context);
+                        final ShowPopup popup = ShowPopup.getInstance(context);
                         popup.createSimplePopupWindow(getString(R.string.huifu),getString(R.string.dianzan),getString(R.string.cai),
                                 getString(R.string.cancel))
                                 .defaultAnim().atBottom(v).setPositionClickListener(new ShowPopup.OnPositionClickListener() {
                             @Override
-                            public void OnPositionClick(View view, int position) {
+                            public void OnPositionClick(PopupWindow popupWindow,View view, int position) {
                                 switch (position){
                                     case 0:
                                         //跳转到回复界面

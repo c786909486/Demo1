@@ -21,7 +21,7 @@ import com.example.vuandroidadsdk.R;
 
 public class ShowPopup {
 
-    private  ShowPopup showPopup;
+    private static ShowPopup showPopup;
 
     private Context context;
 
@@ -37,10 +37,20 @@ public class ShowPopup {
      * 初始化
      * @param context
      */
-    public ShowPopup(Context context){
+    public static ShowPopup getInstance(Context context){
+        if (showPopup == null){
+            synchronized (ShowPopup.class){
+                if (showPopup == null){
+                    showPopup = new ShowPopup(context);
+                }
+            }
+        }
+        return showPopup;
+    }
+
+    private ShowPopup(Context context){
         this.context = context;
         inflater = LayoutInflater.from(context);
-        showPopup = this;
     }
 
     /**
@@ -58,7 +68,7 @@ public class ShowPopup {
         return showPopup;
     }
     public interface OnPositionClickListener {
-        void OnPositionClick(View view, int position);
+        void OnPositionClick(PopupWindow popup,View view, int position);
     }
     private OnPositionClickListener positionClickListener;
 
@@ -103,7 +113,7 @@ public class ShowPopup {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    positionClickListener.OnPositionClick(view, finalI);
+                    positionClickListener.OnPositionClick(popupWindow,view, finalI);
                 }
             });
         }

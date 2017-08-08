@@ -15,12 +15,14 @@ import android.widget.Toast;
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.news.MainActivity;
 import com.example.ckz.demo1.activity.news.NewsDetilActivity;
+import com.example.ckz.demo1.activity.user.LoginAcrivity;
 import com.example.ckz.demo1.adapter.news.NewsCollectionAdapter;
 import com.example.ckz.demo1.bean.news.NewsBean;
 
 import com.example.ckz.demo1.bean.user.news.CommentNews;
 import com.example.ckz.demo1.bean.user.news.NewsSaveNetBean;
 import com.example.ckz.demo1.fragment.base.BaseFragment;
+import com.example.ckz.demo1.user.MyUserModule;
 import com.example.ckz.demo1.util.DataChangeUtil;
 import com.example.ckz.demo1.view.LoadListView;
 
@@ -141,7 +143,11 @@ public class NewsCollectionFragment extends BaseFragment implements View.OnClick
     @Override
     public void onStart() {
         super.onStart();
-      getNetData(true);
+        if (MyUserModule.getCurrentUser()!=null){
+            getNetData(true);
+        }else {
+            startActivity(new Intent(getContext(), LoginAcrivity.class));
+        }
     }
 
     @Override

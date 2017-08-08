@@ -2,9 +2,12 @@ package com.example.ckz.demo1.activity.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +34,11 @@ import com.example.ckz.demo1.bean.user.news.NewsSaveNetBean;
 import com.example.ckz.demo1.bean.user.news.UserNewsComment;
 import com.example.ckz.demo1.cache.ACache;
 import com.example.ckz.demo1.refreshheader.ProgressLayout;
+import com.example.ckz.demo1.user.MyUserManager;
 import com.example.ckz.demo1.user.MyUserModule;
 import com.example.ckz.demo1.util.LogUtils;
 import com.example.ckz.demo1.util.SPUtils;
+import com.example.ckz.demo1.util.ScreenUtils;
 import com.example.ckz.demo1.view.LoadingDialog;
 import com.example.ckz.demo1.view.NestedListView;
 import com.example.vuandroidadsdk.showpop.ShowPopup;
@@ -40,6 +46,9 @@ import com.example.vuandroidadsdk.utils.ShowToastUtil;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,12 +193,12 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                 holder.setOnClickListener(R.id.popup_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final ShowPopup popup = new ShowPopup(NewsDetilActivity.this);
+                        final ShowPopup popup = ShowPopup.getInstance(NewsDetilActivity.this);
                         popup.createSimplePopupWindow(getString(R.string.huifu),getString(R.string.dianzan),getString(R.string.cai),
                                 getString(R.string.cancel))
                                 .defaultAnim().atBottom(v).setPositionClickListener(new ShowPopup.OnPositionClickListener() {
                             @Override
-                            public void OnPositionClick(View view, int position) {
+                            public void OnPositionClick(PopupWindow popupWindow,View view, int position) {
                                 switch (position){
                                     case 0:
                                         //跳转到回复界面
@@ -289,10 +298,63 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
                     .dontAnimate().into(mNewsPicture);
         }
         //内容
-        mNewsContent.setText(Html.fromHtml(listBean.getContent()));
+
+
+        mNewsContent.setText(Html.fromHtml(listBean.getContent(),imageGetter,null));
+
         //发布时间
         if (!listBean.getTime().equals("")) mTime.setText(listBean.getTime().substring(0,10));
         if (!listBean.getSrc().equals("")) mFrom.setText(listBean.getSrc());
+    }
+    private Drawable drawable;
+    Html.ImageGetter imageGetter = new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(String s) {
+            if (drawable != null) {
+                Log.d("TAG", "显示");
+                return drawable;
+            }
+            else {
+                Log.d("TAG", "加载"+s);
+                initDrawable(s);
+            }
+            return null;
+        }
+    };
+
+    /**
+     * 加载网络图片
+     * @param s
+     */
+    private void initDrawable(final String s) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Drawable drawable = Drawable.createFromStream(new URL(s).openStream(), "");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int width = ScreenUtils.getScreenWidth(NewsDetilActivity.this);
+
+                            if (drawable != null) {
+                                float picWid = drawable.getIntrinsicWidth();
+                                float picHeight = drawable.getIntrinsicHeight();
+                                Log.d("size","width:"+picWid+"\nheight:"+picHeight+"\nbili:"+picHeight/picWid);
+                                drawable.setBounds(0,0, width, (int)((picHeight/picWid)*width));
+                                NewsDetilActivity.this.drawable = drawable;
+                                if (Build.VERSION.SDK_INT >= 24)
+                                    mNewsContent.setText(Html.fromHtml(listBean.getContent(),Html.FROM_HTML_MODE_COMPACT,imageGetter,null));
+                                else
+                                    mNewsContent.setText(Html.fromHtml(listBean.getContent(),imageGetter,null));
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**
@@ -407,33 +469,27 @@ public class NewsDetilActivity extends BaseActivity implements View.OnClickListe
             //发送评论
             case R.id.send_btn:
                if (mInput.getText().toString().length()>0){
-
-                   UserNewsComment newsComment = new UserNewsComment();
-                   newsComment.setUserModule(userModule);
-                   newsComment.setCommentNews(news);
-                   newsComment.setNewsComment(mInput.getText().toString());
-                   newsComment.setLikes(0);
-                   newsComment.setHates(0);
-                   newsComment.setCommentSize(0);
-                   newsComment.setCommentId((int) System.currentTimeMillis());
-                   newsComment.save(new SaveListener<String>() {
-                       @Override
-                       public void done(String s, BmobException e) {
-                           if (e == null) {
-                               mInput.postDelayed(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       getNewsComment(true);
-                                   }
-                               }, 200);
+                   if (MyUserModule.getCurrentUser()!=null){
+                       MyUserManager.getInstance(NewsDetilActivity.this).sendComment(mInput.getText().toString(), news, new SaveListener<String>() {
+                           @Override
+                           public void done(String s, BmobException e) {
+                               if (e == null) {
+                                   mInput.postDelayed(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           getNewsComment(true);
+                                       }
+                                   }, 200);
+                               }
+                               ShowToastUtil.showToast(NewsDetilActivity.this,R.string.send_sucess);
+                               mInput.setText("");
+                               InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                               imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                            }
-                           ShowToastUtil.showToast(NewsDetilActivity.this,R.string.send_sucess);
-                           mInput.setText("");
-//                           mInput.setFocusable(false);
-                           InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                           imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                       }
-                   });
+                       });
+                   }else {
+                       startActivity(new Intent(NewsDetilActivity.this,LoginAcrivity.class));
+                   }
                }else {
                    ShowToastUtil.showToast(NewsDetilActivity.this,R.string.input_comment);
                }

@@ -233,4 +233,19 @@
     <string name="net_error">网络连接失败</string>
     <string name="all_comment">——全 部 评 论——</string>
     <string name="no_user_comment">您还没有评论过哦~~~</string>
+    <string name="user_center">个人信息</string>
+    <string name="user_icon">头像</string>
+    <string name="nicheng">昵称</string>
+    <string name="uid">UID</string>
+    <string name="sex">性别</string>
+    <string name="user_design">个性签名</string>
+    <string name="design_not_input">未填写</string>
+    <string name="save">保存</string>
+    <string name="input_nicheng">请输入昵称</string>
+    <string name="quit">退出登录</string>
+    <string name="setting">设置</string>
+    <string name="reset_password">重置密码</string>
+    <string name="version_code">版本号</string>
+    <string name="clear_cache">清楚缓存</string>
+    <string name="forget_password">忘记密码？</string>
 </resources>

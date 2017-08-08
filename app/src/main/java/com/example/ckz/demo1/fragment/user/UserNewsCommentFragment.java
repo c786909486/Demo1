@@ -94,7 +94,7 @@ public class UserNewsCommentFragment extends BaseFragment implements AdapterView
             public void bindView(final ViewHolder holder, final UserNewsComment obj) {
                 //设置用户头像
                 MyUserModule userModule = obj.getUserModule();
-                if (userModule.getUserIcon()!=null) holder.setImage(R.id.user_icon,userModule.getUserIcon());
+                if (userModule.getUserIcon()!=null) holder.setImage(R.id.user_icon,userModule.getUserIcon().getUrl());
                 //用户昵称
                 holder.setText(R.id.user_name,userModule.getUserNicheng());
                 //发布时间

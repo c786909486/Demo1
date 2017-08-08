@@ -21,7 +21,7 @@ import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.bean.user.UserIdTable;
 import com.example.ckz.demo1.user.MyUserModule;
 import com.example.ckz.demo1.util.LogUtils;
-import com.example.ckz.demo1.util.MyDialogUtils;
+import com.example.vuandroidadsdk.utils.MyDialogUtils;
 import com.example.ckz.demo1.util.ShowPopwindowHelper;
 import com.example.ckz.demo1.view.CircleImageView;
 import com.example.ckz.demo1.view.ClearEditText;

@@ -75,8 +75,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.news.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,21 +86,45 @@
         </activity>
         <activity
             android:name=".activity.news.NewsDetilActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.news.WebActivity" />
-        <activity android:name=".activity.news.SearchActivity" />
+        <activity
+            android:name=".activity.news.WebActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.news.SearchActivity"
+            android:configChanges="keyboardHidden|orientation" />
         <activity
             android:name=".activity.cookbook.CookbookMainActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.cookbook.CookbookTypeSearchActivity" />
-        <activity android:name=".activity.cookbook.CookbookDetileActivity" />
-        <activity android:name=".activity.cookbook.ShowCookProgressActivity" />
-        <activity android:name=".activity.cookbook.CookbookTypeActivity" />
-        <activity android:name=".activity.cookbook.CookbookSearchActivity" />
-        <activity android:name=".activity.express.ExpressMainActivity" />
-        <activity android:name=".activity.express.CompanyChooseActivity" />
-        <activity android:name=".activity.express.ExpressProgressActivity" />
-        <activity android:name=".activity.express.ExpressHistoryActivity" />
+        <activity
+            android:name=".activity.cookbook.CookbookTypeSearchActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.cookbook.CookbookDetileActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.cookbook.ShowCookProgressActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.cookbook.CookbookTypeActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.cookbook.CookbookSearchActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.express.ExpressMainActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.express.CompanyChooseActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.express.ExpressProgressActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.express.ExpressHistoryActivity"
+            android:configChanges="keyboardHidden|orientation" />
 
         <!-- 二维码 -->
         <activity
@@ -210,10 +234,17 @@
 
         <activity
             android:name=".activity.user.LoginAcrivity"
+            android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.user.RegisterActivity" />
-        <activity android:name=".activity.user.PhoneCheckActivity" />
-        <activity android:name=".activity.user.UserSetActivity" />
+        <activity
+            android:name=".activity.user.RegisterActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.user.PhoneCheckActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.user.UserSetActivity"
+            android:configChanges="keyboardHidden|orientation" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -225,8 +256,31 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".activity.user.UserCenterActivity" />
-        <activity android:name=".activity.news.CommentDetialActivity"></activity>
+        <activity
+            android:name=".activity.user.UserCenterActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.news.CommentDetialActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.user.UserSettingActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.user.UserNameActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name=".activity.user.UserDesignActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name="com.example.vuandroidadsdk.camera.BelowLollipopCameraActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name="com.example.vuandroidadsdk.camera.ClipPictureActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.user.ForgetPasswordActivity" />
+        <activity android:name=".activity.user.ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

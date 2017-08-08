@@ -18,6 +18,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:src="@mipmap/user_normal_icon"
         app:border_color="@color/whilte"
+        app:border_width="2dp"
         />
     <TextView
         android:id="@+id/user_name"

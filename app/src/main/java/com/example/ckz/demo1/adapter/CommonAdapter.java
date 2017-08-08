@@ -181,7 +181,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         public ViewHolder setImage(int id, BmobFile file) {
             View view = getView(id);
             if (view instanceof ImageView) {
-                Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate()
+                Glide.with(context).load(file.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate()
                         .into((ImageView) view);
             }
             return this;

@@ -5,25 +5,18 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.ckz.demo1.R;
 import com.example.ckz.demo1.activity.base.BaseActivity;
+import com.example.ckz.demo1.user.MyUserManager;
 import com.example.ckz.demo1.util.LogUtils;
 import com.example.ckz.demo1.view.ClearEditText;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
-import cn.bmob.sms.BmobSMS;
-import cn.bmob.sms.exception.BmobException;
-import cn.bmob.sms.listener.RequestSMSCodeListener;
-import cn.bmob.sms.listener.VerifySMSCodeListener;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -37,12 +30,6 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
     private static final int NORMAL = 0;
     private static final int SEND = 1;
     private int current = NORMAL;
-    /**
-     * 验证码短信模板名称，smsId
-     */
-    private static final String CODE_NAME = "lookworld";
-    private int smsId = 0;
-
     private int s;
     /**
      * 手机号和密码
@@ -65,8 +52,6 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_check);
-
-
         getIntentData();
         PhoneCheckActivityPermissionsDispatcher.needWithCheck(this);
         initView();
@@ -95,15 +80,7 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
      * 请求验证码
      */
     private void getCheckCode(){
-        BmobSMS.requestSMSCode(this, mPhoneNum, CODE_NAME, new RequestSMSCodeListener() {
-            @Override
-            public void done(Integer integer, BmobException e) {
-                if (e == null){//验证码发送成功
-                    smsId = integer;
-
-                }
-            }
-        });
+        MyUserManager.getInstance(this).requestSmsCode(mPhoneNum,null);
     }
 
     /**
@@ -161,18 +138,6 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
                     Intent intent = new Intent(PhoneCheckActivity.this,UserSetActivity.class);
                     intent.putExtra("userData",bundle);
                     startActivity(intent);
-//                    BmobSMS.verifySmsCode(PhoneCheckActivity.this, mPhoneNum, mInputCode.getText().toString(), new VerifySMSCodeListener() {
-//                        @Override
-//                        public void done(BmobException e) {
-//                            if (e == null){
-//                                //验证成功,跳转到信息设置页面
-//
-//                            }else {
-//                                //验证失败
-//                                Toast.makeText(PhoneCheckActivity.this,"验证失败",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
                 }
                 break;
             case R.id.send_message:
@@ -188,11 +153,6 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //timer.cancel();
-    }
 
     @NeedsPermission(Manifest.permission.READ_PHONE_STATE)
     void need() {
@@ -213,6 +173,6 @@ public class PhoneCheckActivity extends BaseActivity implements View.OnClickList
     }
 
     @OnNeverAskAgain(Manifest.permission.READ_PHONE_STATE)
-    void never() {
+    void ask() {
     }
 }
